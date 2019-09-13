@@ -1,4 +1,4 @@
-package com.unforce.detectago;
+package com.unforce.detectago.activities;
 
 import android.os.Bundle;
 
@@ -13,13 +13,22 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.unforce.detectago.R;
+import com.unforce.detectago.adapters.ViewPagerAdapter;
+import com.unforce.detectago.fragments.CameraFragment;
+import com.unforce.detectago.fragments.FavoritesFragment;
+import com.unforce.detectago.fragments.FindsFragment;
+import com.unforce.detectago.fragments.LocationsFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +39,26 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ViewPager vp = this.findViewById(R.id.viewPager);
+        TabLayout tl = findViewById(R.id.tabLayout);
+
+        ViewPagerAdapter vpa = new ViewPagerAdapter(this.getSupportFragmentManager(), this);
+        vpa.addFragment(new CameraFragment(), null, android.R.drawable.ic_menu_camera);
+        vpa.addFragment(new FavoritesFragment(), getResources().getString(R.string.tab_favorites), 0);
+        vpa.addFragment(new LocationsFragment(), getResources().getString(R.string.tab_locations), 0);
+        vpa.addFragment(new FindsFragment(), getResources().getString(R.string.tab_finds), 0);
+        vp.setAdapter(vpa);
+        tl.setupWithViewPager(vp);
+
+
+        /* Decrease size of camera tab */
+
+        LinearLayout layout = ((LinearLayout) ((LinearLayout) tl.getChildAt(0)).getChildAt(0));
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
+        layoutParams.weight = 0.35f;
+        layout.setLayoutParams(layoutParams);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
