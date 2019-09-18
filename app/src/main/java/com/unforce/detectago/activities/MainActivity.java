@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity
         ViewPager vp = this.findViewById(R.id.viewPager);
         TabLayout tl = findViewById(R.id.tabLayout);
 
+        tl.setTabIconTint();
+
         ViewPagerAdapter vpa = new ViewPagerAdapter(this.getSupportFragmentManager(), this);
         vpa.addFragment(new CameraFragment(), null, android.R.drawable.ic_menu_camera);
         vpa.addFragment(new FavoritesFragment(), getResources().getString(R.string.tab_favorites), 0);
@@ -51,12 +53,10 @@ public class MainActivity extends AppCompatActivity
         vp.setAdapter(vpa);
         tl.setupWithViewPager(vp);
 
-
         /* Decrease size of camera tab */
-
         LinearLayout layout = ((LinearLayout) ((LinearLayout) tl.getChildAt(0)).getChildAt(0));
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
-        layoutParams.weight = 0.35f;
+        layoutParams.weight = 0.5f;
         layout.setLayoutParams(layoutParams);
 
         FloatingActionButton fab = findViewById(R.id.fab);
